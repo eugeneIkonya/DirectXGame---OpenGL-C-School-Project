@@ -13,8 +13,14 @@
       <Filter>App</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="AppWindow.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h" />
+    <ClInclude Include="AppWindow.h">
+      <Filter>App</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
