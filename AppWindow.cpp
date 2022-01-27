@@ -1,8 +1,14 @@
 #include "AppWindow.h"
 
+
+
 AppWindow::AppWindow()
 {
+}
 
+
+AppWindow::~AppWindow()
+{
 }
 
 void AppWindow::onCreate()
@@ -13,21 +19,26 @@ void AppWindow::onCreate()
 
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+
 }
 
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
+	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
+		0, 1, 0, 1);
+
+
+
+
+
+	m_swap_chain->present(true);
 }
 
 void AppWindow::onDestroy()
 {
-	Window::onDestroy();  //onDestroy Method of the super class i.e Window Class
+	Window::onDestroy();
+
 	m_swap_chain->release();
 	GraphicsEngine::get()->release();
-}
-
-AppWindow::~AppWindow()
-{
-
 }

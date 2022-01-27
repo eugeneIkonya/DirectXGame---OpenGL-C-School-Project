@@ -1,14 +1,16 @@
 #include "Window.h"
 
-//Window* window = nullptr;
+//Window* window=nullptr;
 
 Window::Window()
 {
+
 }
+
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	//Handling the events
+	//GetWindowLong(hwnd,)
 	switch (msg)
 	{
 	case WM_CREATE:
@@ -18,6 +20,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		Window* window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
 		// .. and then stored for later lookup
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
+		window->setHWND(hwnd);
 		window->onCreate();
 		break;
 	}
@@ -31,6 +34,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		break;
 	}
 
+
 	default:
 		return ::DefWindowProc(hwnd, msg, wparam, lparam);
 	}
@@ -41,7 +45,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 bool Window::init()
 {
-	//Setting up WNDCLASSEX object - Visual Properties
+
+
+	//Setting up WNDCLASSEX object
 	WNDCLASSEX wc;
 	wc.cbClsExtra = NULL;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -52,7 +58,7 @@ bool Window::init()
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hInstance = NULL;
 	wc.lpszClassName = "MyWindowClass";
-	wc.lpszMenuName = NULL;
+	wc.lpszMenuName = "";
 	wc.style = NULL;
 	wc.lpfnWndProc = &WndProc;
 
@@ -62,8 +68,9 @@ bool Window::init()
 	/*if (!window)
 		window = this;*/
 
-	//Creation of the window
-	m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
+		//Creation of the window
+	m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "DirectX Application",
+		WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
 		NULL, NULL, NULL, this);
 
 	//if the creation fail return false
@@ -74,8 +81,13 @@ bool Window::init()
 	::ShowWindow(m_hwnd, SW_SHOW);
 	::UpdateWindow(m_hwnd);
 
-	//Set this flag to true to indicate that the window is initialized and running
+
+
+
+	//set this flag to true to indicate that the window is initialized and running
 	m_is_run = true;
+
+
 
 	return true;
 }
@@ -84,6 +96,8 @@ bool Window::broadcast()
 {
 	MSG msg;
 
+	this->onUpdate();
+
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
 	{
 		TranslateMessage(&msg);
@@ -91,8 +105,10 @@ bool Window::broadcast()
 	}
 
 	Sleep(1);
+
 	return true;
 }
+
 
 bool Window::release()
 {

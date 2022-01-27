@@ -2,8 +2,9 @@
 #include "Window.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
+#include "DeviceContext.h"
 
-class AppWindow: public Window
+class AppWindow : public Window
 {
 public:
 	AppWindow();
@@ -16,4 +17,3 @@ public:
 private:
 	SwapChain* m_swap_chain;
 };
-
