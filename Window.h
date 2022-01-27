@@ -11,13 +11,15 @@ public:
 	bool broadcast();
 	//Release the window
 	bool release();
+	bool isRun();
 	//Events
 	virtual void onCreate()=0;
 	virtual void onUpdate() = 0;
-	virtual void onDestroy() = 0;
+	virtual void onDestroy();
 
 	~Window();
 protected:
 	HWND m_hwnd;
+	bool m_is_run;
 };
 
