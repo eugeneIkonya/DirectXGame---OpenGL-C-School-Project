@@ -108,6 +108,18 @@ bool Window::isRun()
 	return m_is_run;
 }
 
+RECT Window::getClientWindowRect()
+{
+	RECT rc;
+	::GetClientRect(this->m_hwnd, &rc);
+	return rc;
+}
+
+void Window::setHWND(HWND hwnd)
+{
+	this->m_hwnd = hwnd;
+}
+
 void Window::onCreate()
 {
 }
